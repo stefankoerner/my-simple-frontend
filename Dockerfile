@@ -12,7 +12,8 @@ RUN apt-get update && apt-get -y install \
 		rsync \
 		zip \
 		wget \
-		python
+		python \
+		vim
 
 # install node 6
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && \
@@ -26,7 +27,7 @@ RUN npm install -g node-gyp node-pre-gyp
 COPY ./ /www/my-simple-frontend
 WORKDIR /www/my-simple-frontend
 RUN npm install
+RUN npm run build
 
-
-EXPOSE 4200
+EXPOSE 4201
 ENTRYPOINT ["docker/run.sh"]
