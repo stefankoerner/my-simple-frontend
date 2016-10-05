@@ -8,6 +8,7 @@ import {ApartmentsServiceMock} from "./apartments.service.mock";
 import { DetailsComponent } from './details/details.component';
 import { EditComponent } from './edit/edit.component';
 import { AddComponent } from './add/add.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AddComponent } from './add/add.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     apartmentsRouting
   ],
   providers: [

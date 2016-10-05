@@ -1,3 +1,25 @@
 <p>
   apartments list works!
 </p>
+
+<label>
+  Filter:
+  <input [ngModel]="filter" (ngModelChange)="filterChanged($event)" />
+</label>
+
+<div class="table-responsive">
+  <table *ngIf="list.length > 0" class="table">
+    <thead>
+      <tr>
+        <td>id</td>
+        <td>name</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of list">
+        <td>{{row.id}}</td>
+        <td>{{row.name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
