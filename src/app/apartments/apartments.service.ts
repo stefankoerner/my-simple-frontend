@@ -8,7 +8,7 @@ export type Apartment = {
 }
 
 export abstract class ApartmentsServiceBase {
-  public getList(page:number, limit:number, filter:string): Observable<Array<Apartment>> {
+  public getList(page:number, limit:number, filter:{[key:string]:string}): Observable<Array<Apartment>> {
 
     let data = [];
     let start = page*limit;

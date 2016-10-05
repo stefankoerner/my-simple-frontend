@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ApartmentsService, Apartment} from "../apartments.service";
 import {Subscription, Observable} from 'rxjs';
 import {TimerObservable} from "rxjs/observable/TimerObservable";
+import {Router, ActivatedRoute} from "@angular/router";
 declare var jQuery:any;
 
 @Component({
@@ -15,17 +16,20 @@ export class ListComponent implements OnInit {
 
   private page:number;
   private limit:number;
-  private filter:string;
+  private filter:{[key:string]:string};
   private list:Array<Apartment>;
   private loading:boolean;
   private endReached:boolean;
 
-  constructor(private apartmentsService: ApartmentsService) { }
+  constructor(private apartmentsService: ApartmentsService, private router:Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.page = 0;
     this.limit = 20;
-    this.filter = "";
+    this.filter = {
+      name: "",
+      street: ""
+    };
     this.list = [];
     this.loading = false;
     this.endReached = false;
@@ -45,14 +49,13 @@ export class ListComponent implements OnInit {
   }
 
   private filterChangedTimer:Subscription;
-  private filterChanged(event):void {
+  private filterChanged():void {
     if (!!this.filterChangedTimer) {
       this.filterChangedTimer.unsubscribe();
     }
     this.filterChangedTimer = TimerObservable.create(1000).subscribe(() => {
       this.filterChangedTimer.unsubscribe();
       this.page = 0;
-      this.filter = event;
       this.loadList().subscribe(list => {
         this.list = [];
         this.appendList(list);
@@ -79,5 +82,10 @@ export class ListComponent implements OnInit {
         })
       }
     }
+  }
+
+  private onClickAdd():boolean {
+    this.router.navigate(['./add'], {relativeTo: this.route});
+    return false;
   }
 }
