@@ -29,5 +29,8 @@ WORKDIR /www/my-simple-frontend
 RUN npm install
 RUN npm run build
 
+# cleanup
+RUN apt-get autoremove && apt-get autoclean & apt-get clean
+
 EXPOSE 4201
 ENTRYPOINT ["docker/run.sh"]
