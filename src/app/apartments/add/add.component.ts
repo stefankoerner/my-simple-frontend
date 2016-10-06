@@ -14,7 +14,7 @@ export class AddComponent implements OnInit {
   }
 
   private onClickCancel():boolean {
-    this.router.navigate([".."], {relativeTo: this.route});
+    this.router.navigate(["../../"], {relativeTo: this.route});
     return false;
   }
 
