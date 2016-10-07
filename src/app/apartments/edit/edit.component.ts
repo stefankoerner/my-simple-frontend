@@ -44,6 +44,17 @@ export class EditComponent implements OnInit, OnDestroy {
     });
   }
 
+  private onCancel():boolean {
+    this.router.navigate(["apartments"], {relativeTo: this.route});
+    return false;
+  }
+
+  private onSave():boolean {
+    this.apartmentsService.add(this.form);
+    this.router.navigate(["../../"], {relativeTo: this.route});
+    return false;
+  }
+
   private validateEmail(c:FormControl) {
     let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
 

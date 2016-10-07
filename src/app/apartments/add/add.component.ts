@@ -35,14 +35,14 @@ export class AddComponent implements OnInit {
     })
   }
 
-  private onClickCancel():boolean {
-    this.router.navigate(["../../"], {relativeTo: this.route});
+  private onCancel():boolean {
+    this.router.navigate(["../.."], {relativeTo: this.route});
     return false;
   }
 
-  private onClickSave():boolean {
+  private onSave():boolean {
     this.apartmentsService.add(this.form);
-    this.router.navigate(["../../"], {relativeTo: this.route});
+    this.router.navigate(["../.."], {relativeTo: this.route});
     return false;
   }
 

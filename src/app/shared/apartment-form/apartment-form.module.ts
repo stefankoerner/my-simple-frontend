@@ -9,6 +9,11 @@ import {ReactiveFormsModule, FormsModule} from "@angular/forms";
     ReactiveFormsModule,
     FormsModule
   ],
-  declarations: [ApartmentFormComponent]
+  declarations: [
+    ApartmentFormComponent
+  ],
+  exports: [
+    ApartmentFormComponent
+  ]
 })
 export class ApartmentFormModule { }

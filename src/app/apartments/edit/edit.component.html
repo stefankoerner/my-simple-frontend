@@ -1,3 +1,5 @@
-<p>
-  edit works!
-</p>
+<div class="page-header">
+  <h4>Edit Apartment</h4>
+</div>
+
+<app-apartment-form [form]="form" (onSave)="onSave()" (onCancel)="onCancel()"></app-apartment-form>

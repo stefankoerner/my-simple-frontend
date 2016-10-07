@@ -8,7 +8,7 @@ import {FormGroup} from "@angular/forms";
 })
 export class ApartmentFormComponent implements OnInit {
 
-  @Input() form: FormGroup;
+  @Input('form') form: FormGroup;
   @Output() onSave:EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onCancel:EventEmitter<boolean> = new EventEmitter<boolean>();
 

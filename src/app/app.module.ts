@@ -8,7 +8,7 @@ import {RouterModule, Routes} from "@angular/router";
 const routes: Routes = [
   {
     path: 'apartments',
-    loadChildren: 'app/apartments/apartments.module#ApartmentsModule'
+    loadChildren: 'app/apartments/apartments.module#ApartmentsModule',
   },
   {
     path: '',
