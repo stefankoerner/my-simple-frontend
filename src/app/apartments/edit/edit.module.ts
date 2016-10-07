@@ -2,25 +2,27 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Routes, RouterModule} from "@angular/router";
-import {AddComponent} from "./add.component";
-import {ApartmentFormModule} from "../../shared/apartment-form/apartment-form.module";
+import {EditComponent} from "./edit.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: AddComponent
+    component: EditComponent
   }
 ];
 
 @NgModule({
   declarations: [
-    AddComponent
+    EditComponent
   ],
   imports: [
-    RouterModule.forChild(routes),
+    ReactiveFormsModule,
     CommonModule,
-    ApartmentFormModule
+    FormsModule,
+    RouterModule.forChild(routes)
   ],
-  bootstrap: [AddComponent]
+  providers: [
+  ],
+  bootstrap: [EditComponent]
 })
 export class AddModule { }

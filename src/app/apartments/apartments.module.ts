@@ -12,6 +12,10 @@ const routes: Routes = [
     loadChildren: 'app/apartments/add/add.module#AddModule'
   },
   {
+    path: 'edit/:apartmentId',
+    loadChildren: 'app/apartments/edit/edit.module#EditModule'
+  },
+  {
     path: '',
     loadChildren: 'app/apartments/list/list.module#ListModule'
   }

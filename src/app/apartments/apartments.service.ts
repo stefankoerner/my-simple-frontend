@@ -1,7 +1,8 @@
 
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/Rx";
+import {Observable, Observer} from "rxjs/Rx";
 import {FormGroup} from "@angular/forms";
+import {TimerObservable} from "rxjs/observable/TimerObservable";
 
 export class Apartment {
   id: number;
@@ -12,6 +13,7 @@ export class Apartment {
   country: string;
   zip: string;
   city: string;
+  email: string;
 
   public static of(data:any):Apartment {
     return Object.assign(new Apartment(), data);
@@ -27,6 +29,8 @@ export class Apartment {
 }
 
 export abstract class ApartmentsServiceBase {
+
+  private delay:number = 2000;
 
   private data = [];
 
@@ -49,13 +53,18 @@ export abstract class ApartmentsServiceBase {
   }
 
   public getList(page:number, limit:number, filter:{[key:string]:string}): Observable<Array<Apartment>> {
-    return Observable.of(this.getData().slice(page*limit, page*limit + limit)).delay(1000);
+    return Observable.of(this.getData().slice(page*limit, page*limit + limit)).delay(this.delay);
   }
 
   public add(form:FormGroup) {
     let data:Apartment = Apartment.of(form.value);
     data.id = this.data.length;
     this.data.unshift(data);
+  }
+
+  public getById(id:number) {
+    let apartment:Apartment = this.getData().find((item:Apartment) => item.id === +id);
+    return Observable.of(apartment).delay(this.delay);
   }
 }
 
