@@ -27,12 +27,16 @@
       <tr>
         <th>id</th>
         <th>name</th>
+        <th>place</th>
+        <th>email</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let row of list">
         <td>{{row.id}}</td>
-        <td>{{row.name}}</td>
+        <td>{{row.line1}}</td>
+        <td>{{row.getPlace()}}</td>
+        <td>{{row.email}}</td>
       </tr>
       </tbody>
     </table>

@@ -74,12 +74,14 @@ export class ListComponent implements OnInit {
 
       let table = jQuery("app-apartments-list:first");
       let viewport = jQuery( window );
-      let scrollBottom =  table.offset().top + table.height() - viewport.scrollTop() - viewport.height();
-      if (scrollBottom <= 200) {
-        this.page++;
-        this.loadList().subscribe(list => {
-          this.appendList(list);
-        })
+      if (table.length > 0) {
+        let scrollBottom =  table.offset().top + table.height() - viewport.scrollTop() - viewport.height();
+        if (scrollBottom <= 200) {
+          this.page++;
+          this.loadList().subscribe(list => {
+            this.appendList(list);
+          })
+        }
       }
     }
   }
