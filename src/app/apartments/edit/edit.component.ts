@@ -53,6 +53,7 @@ export class EditComponent implements OnInit, OnDestroy {
           'zip': [data.zip],
           'city': [data.city],
           'email': [data.email, [
+            Validators.required,
             this.validateEmail
           ]],
         });

@@ -30,7 +30,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   providers: [
-    {provide: ApartmentsService, useClass: (environment.production ? ApartmentsService : ApartmentsServiceMock)}
+    {provide: ApartmentsService, useClass: (!environment.production ? ApartmentsService : ApartmentsServiceMock)}
   ],
   bootstrap: []
 })
