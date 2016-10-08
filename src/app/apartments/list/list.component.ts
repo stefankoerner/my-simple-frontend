@@ -89,7 +89,7 @@ export class ListComponent implements OnInit, OnDestroy {
       let viewport = jQuery( window );
       if (table.length > 0) {
         let scrollBottom =  table.offset().top + table.height() - viewport.scrollTop() - viewport.height();
-        if (scrollBottom <= 200) {
+        if (scrollBottom <= 400) {
           this.page++;
           this.loadList().subscribe(list => {
             this.appendList(list);

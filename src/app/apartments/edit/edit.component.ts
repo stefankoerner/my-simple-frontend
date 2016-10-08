@@ -43,7 +43,7 @@ export class EditComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.subscriptions.push(this.apartmentsService.getById(this.id).subscribe((data: Apartment) => {
+      this.subscriptions.push(this.apartmentsService.getById(this.id, this.token).subscribe((data: Apartment) => {
         this.form = this.formBuilder.group({
           'line1': [data.line1],
           'line2': [data.line2],
@@ -57,6 +57,9 @@ export class EditComponent implements OnInit, OnDestroy {
             this.validateEmail
           ]],
         });
+      }, error => {
+        this.toastService.add('danger', 'Error!', error.text());
+        this.router.navigate(["apartments"]);
       }))
     });
   }
