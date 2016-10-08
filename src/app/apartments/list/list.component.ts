@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ApartmentsService, Apartment} from "../apartments.service";
 import {Subscription, Observable} from 'rxjs';
 import {TimerObservable} from "rxjs/observable/TimerObservable";
-import {Router, ActivatedRoute} from "@angular/router";
+import {Router, ActivatedRoute, Params} from "@angular/router";
 declare var jQuery:any;
 
 @Component({
@@ -12,7 +12,7 @@ declare var jQuery:any;
   host: {'(window:scroll)': 'loadListContinue()'},
 
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
 
   private page:number;
   private limit:number;
@@ -20,6 +20,8 @@ export class ListComponent implements OnInit {
   private list:Array<Apartment>;
   private loading:boolean;
   private endReached:boolean;
+  private subscriptions:Array<Subscription> = [];
+  private selectedId:number;
 
   constructor(private apartmentsService: ApartmentsService, private router:Router, private route: ActivatedRoute) { }
 
@@ -28,7 +30,7 @@ export class ListComponent implements OnInit {
     this.limit = 20;
     this.filter = {
       name: "",
-      street: ""
+      email: ""
     };
     this.list = [];
     this.loading = false;
@@ -37,6 +39,17 @@ export class ListComponent implements OnInit {
     this.loadList().subscribe(list => {
       this.appendList(list);
     });
+
+    this.route.fragment.subscribe(fragment => {
+      this.selectedId = +fragment;
+    })
+  }
+
+  ngOnDestroy(): void {
+    let subscription:Subscription;
+    while (subscription = this.subscriptions.pop()) {
+      subscription.unsubscribe();
+    }
   }
 
   private appendList(list:Array<Apartment>) {
@@ -87,7 +100,15 @@ export class ListComponent implements OnInit {
   }
 
   private onClickAdd():boolean {
-    this.router.navigate(['./add'], {relativeTo: this.route});
+    this.router.navigate(['apartments', 'add']);
     return false;
+  }
+
+  private onClickItem(id:number) {
+    this.router.navigate(['apartments'], {fragment: id + ''});
+  }
+
+  private onClickClose() {
+    this.router.navigate(['apartments']);
   }
 }

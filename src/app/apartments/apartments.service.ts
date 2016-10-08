@@ -14,6 +14,7 @@ export class Apartment {
   zip: string;
   city: string;
   email: string;
+  created: number;
 
   public static of(data:any):Apartment {
     return Object.assign(new Apartment(), data);
@@ -26,13 +27,23 @@ export class Apartment {
       !!this.city ? this.city : false
     ].filter(item => item !== false).join(" ");
   }
+
+  public getDate():string {
+    if (this.created) {
+      let date = new Date(this.created);
+      return date.toLocaleString();
+    }
+    else {
+      return null;
+    }
+  }
 }
 
 export abstract class ApartmentsServiceBase {
 
   private delay:number = 2000;
 
-  private data = [];
+  private data:Array<Apartment> = [];
 
   private getData(): Array<Apartment> {
     if (this.data.length < 10) {
@@ -41,10 +52,13 @@ export abstract class ApartmentsServiceBase {
           Apartment.of({
             id:(i+1),
             line1:"test"+(i+1),
+            street: "Evergreen Terrace",
+            no: "742",
             country: "DE",
-            zip: 1000 + i,
+            zip: 40000 + i,
             city: "Düsseldorf",
-            email: "test+" + (i+1) + "@web.de"
+            email: "test+" + (i+1) + "@web.de",
+            created: 1475932068000 + i * 1000
           })
         );
       }
@@ -56,13 +70,36 @@ export abstract class ApartmentsServiceBase {
     return Observable.of(this.getData().slice(page*limit, page*limit + limit)).delay(this.delay);
   }
 
-  public add(form:FormGroup) {
-    let data:Apartment = Apartment.of(form.value);
-    data.id = this.data.length;
-    this.data.unshift(data);
+  public add(form:FormGroup): Promise<{success:boolean, message?:string}> {
+    return new Promise<{success:boolean, message?:string}>(resolve => {
+      let data:Apartment = Apartment.of(form.value);
+      data.id = this.data.length;
+      this.data.unshift(data);
+      resolve({success:true});
+    });
   }
 
-  public getById(id:number) {
+  public update(id:number, token:string, form:FormGroup): Promise<{success:boolean, message?:string}> {
+    return new Promise<{success:boolean, message?:string}>(resolve => {
+
+      let data = this.data.find(apartment => {
+        return apartment.id === id;
+      });
+
+      if (token === "asdf") {
+        resolve({success:false, message: 'Invalid Token.'})
+      }
+      else if (!data) {
+        resolve({success:false, message: 'Unknown Apartment ID.'})
+      }
+      else {
+        Object.assign(data, form.value);
+        resolve({success:true});
+      }
+    });
+  }
+
+  public getById(id:number):Observable<Apartment> {
     let apartment:Apartment = this.getData().find((item:Apartment) => item.id === +id);
     return Observable.of(apartment).delay(this.delay);
   }

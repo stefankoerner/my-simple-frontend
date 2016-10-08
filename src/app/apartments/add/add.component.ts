@@ -2,6 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 import {FormGroup, FormBuilder, FormControl, Validators} from "@angular/forms";
 import {ApartmentsService} from "../apartments.service";
+import {TimerObservable} from "rxjs/observable/TimerObservable";
+import {ToastService} from "../../shared/toast/toast.service";
 
 @Component({
   selector: 'app-add',
@@ -14,7 +16,8 @@ export class AddComponent implements OnInit {
     private router:Router,
     private route:ActivatedRoute,
     private formBuilder:FormBuilder,
-    private apartmentsService:ApartmentsService
+    private apartmentsService:ApartmentsService,
+    private toastService: ToastService
   ) {}
 
   private form:FormGroup;
@@ -36,13 +39,25 @@ export class AddComponent implements OnInit {
   }
 
   private onCancel():boolean {
-    this.router.navigate(["../.."], {relativeTo: this.route});
+    TimerObservable.create().subscribe(() => {
+      this.router.navigate(["apartments"]);
+    });
     return false;
   }
 
   private onSave():boolean {
-    this.apartmentsService.add(this.form);
-    this.router.navigate(["../.."], {relativeTo: this.route});
+    this.apartmentsService.add(this.form).then((result) => {
+      if (result.success) {
+        this.toastService.add('success', 'Saved!', 'The entry has been created successfully.')
+      }
+      else {
+        this.toastService.add('danger', 'Error!', result.message);
+      }
+      TimerObservable.create().subscribe(() => {
+        this.router.navigate(["apartments"]);
+      });
+    });
+
     return false;
   }
 

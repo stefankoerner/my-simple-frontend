@@ -1,6 +1,9 @@
 <div class="page-header">
   <h4>Apartment List</h4>
 </div>
+
+<app-details *ngIf="selectedId" [selectedId]="selectedId" (onClose)="onClickClose($event)"></app-details>
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <div class="form-inline">
@@ -10,7 +13,7 @@
                (ngModelChange)="filterChanged()"/>
       </div>
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Street" [(ngModel)]="filter.street"
+        <input type="text" class="form-control" placeholder="Email" [(ngModel)]="filter.email"
                (ngModelChange)="filterChanged()"/>
       </div>
 
@@ -21,26 +24,27 @@
     </div>
 
   </div>
-  <div class="table-responsive">
-    <table *ngIf="list.length > 0" class="table table-hover">
-      <thead>
-      <tr>
-        <th>id</th>
-        <th>name</th>
-        <th>place</th>
-        <th>email</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let row of list">
-        <td>{{row.id}}</td>
-        <td>{{row.line1}}</td>
-        <td>{{row.getPlace()}}</td>
-        <td>{{row.email}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+</div>
+
+<div class="table-responsive">
+  <table *ngIf="list.length > 0" class="table table-hover table-bordered">
+    <thead>
+    <tr class="active">
+      <th>ID</th>
+      <th>Name</th>
+      <th>City</th>
+      <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let row of list" (click)="onClickItem(row.id)">
+      <td>{{row.id}}</td>
+      <td>{{row.line1}}</td>
+      <td>{{row.getPlace()}}</td>
+      <td>{{row.email}}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 
 <div class="text-center" *ngIf="loading"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></div>

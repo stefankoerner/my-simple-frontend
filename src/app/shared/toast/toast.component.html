@@ -1,0 +1,10 @@
+
+<div class="alert-container container row" *ngIf="messages.length > 0">
+  <div *ngFor="let message of messages" class="center-block alert alert-{{message.type}}" role="alert">
+    <span *ngIf="message.type == 'warning'" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span *ngIf="message.type == 'danger'" class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+    <span *ngIf="message.type == 'success'" class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+    <span *ngIf="message.type == 'info'" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    <b> {{message.title}}</b> {{message.message}}
+  </div>
+</div>

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import {RouterModule, Routes} from "@angular/router";
+import {ToastModule} from "./shared/toast/toast.module";
 
 const routes: Routes = [
   {
@@ -23,8 +24,9 @@ const routes: Routes = [
     AppComponent
   ],
   imports: [
+    RouterModule.forRoot(routes),
     BrowserModule,
-    RouterModule.forRoot(routes)
+    ToastModule
   ],
   providers: [
   ],

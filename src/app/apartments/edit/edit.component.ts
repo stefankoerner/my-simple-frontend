@@ -1,8 +1,10 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Router, ActivatedRoute, Params} from "@angular/router";
-import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
+import {FormBuilder, FormGroup, FormControl, Validator, Validators} from "@angular/forms";
 import {ApartmentsService, Apartment} from "../apartments.service";
-import {Subscription} from "rxjs/Rx";
+import {Subscription, Observable} from "rxjs/Rx";
+import {ToastService} from "../../shared/toast/toast.service";
+import {TimerObservable} from "rxjs/observable/TimerObservable";
 
 @Component({
   selector: 'app-edit',
@@ -15,43 +17,68 @@ export class EditComponent implements OnInit, OnDestroy {
     private router:Router,
     private route:ActivatedRoute,
     private formBuilder:FormBuilder,
-    private apartmentsService:ApartmentsService
+    private apartmentsService:ApartmentsService,
+    private toastService: ToastService
   ) {}
 
   private form:FormGroup;
   
   private subscriptions:Subscription[] = [];
 
+  private id: number;
+  private token: string;
+
   ngOnInit() {
-    this.route.params.forEach((params:Params) => {
-      let id = params['apartmentId'];
-      if (!isNaN(parseFloat(id)) && isFinite(id)) {
-        this.subscriptions.push(this.apartmentsService.getById(id).subscribe((data:Apartment) => {
-          this.form = this.formBuilder.group({
-            'line1': [data.line1],
-            'line2': [data.line2],
-            'street': [data.street],
-            'no': [data.no],
-            'country': [data.country],
-            'zip': [data.zip],
-            'city': [data.city],
-            'email': [data.email, [
-              this.validateEmail
-            ]],
-          })
-        }))
+
+    Observable.combineLatest(
+      this.route.queryParams.map(data => data['token'] || null),
+      this.route.params.map(data => data['apartmentId'] || null)
+    ).subscribe(params => {
+      this.token = params[0];
+      this.id = +params[1];
+
+      if (!this.token || !this.id) {
+        this.toastService.add('danger', 'Error', 'Invalid url params');
+        this.router.navigate(['apartments']);
+        return;
       }
+
+      this.subscriptions.push(this.apartmentsService.getById(this.id).subscribe((data: Apartment) => {
+        this.form = this.formBuilder.group({
+          'line1': [data.line1],
+          'line2': [data.line2],
+          'street': [data.street],
+          'no': [data.no],
+          'country': [data.country],
+          'zip': [data.zip],
+          'city': [data.city],
+          'email': [data.email, [
+            this.validateEmail
+          ]],
+        });
+      }))
     });
   }
 
   private onCancel():boolean {
-    this.router.navigate(["apartments"], {relativeTo: this.route});
+    TimerObservable.create().subscribe(() => {
+      this.router.navigate(["apartments"]);
+    });
     return false;
   }
 
   private onSave():boolean {
-    this.apartmentsService.add(this.form);
-    this.router.navigate(["../../"], {relativeTo: this.route});
+    this.apartmentsService.update(this.id, this.token, this.form).then(result => {
+      if (result.success) {
+        this.toastService.add('success', 'Saved!', 'The entry has been successfully updated.')
+      }
+      else {
+        this.toastService.add('danger', 'Error!', result.message);
+      }
+      TimerObservable.create().subscribe(() => {
+        this.router.navigate(["apartments"]);
+      });
+    });
     return false;
   }
 

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {Routes, RouterModule} from "@angular/router";
 import {ListComponent} from "./list.component";
+import {DetailsComponent} from "./details/details.component";
 
 const routes: Routes = [
   {
@@ -13,7 +14,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    ListComponent
+    ListComponent,
+    DetailsComponent
   ],
   imports: [
     CommonModule,

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Routes, RouterModule} from "@angular/router";
 import {EditComponent} from "./edit.component";
+import {ApartmentFormModule} from "../../shared/apartment-form/apartment-form.module";
 
 const routes: Routes = [
   {
@@ -16,13 +17,10 @@ const routes: Routes = [
     EditComponent
   ],
   imports: [
-    ReactiveFormsModule,
+    RouterModule.forChild(routes),
     CommonModule,
-    FormsModule,
-    RouterModule.forChild(routes)
-  ],
-  providers: [
+    ApartmentFormModule
   ],
   bootstrap: [EditComponent]
 })
-export class AddModule { }
+export class EditModule { }
