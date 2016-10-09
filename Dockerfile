@@ -27,6 +27,7 @@ RUN npm install -g node-gyp node-pre-gyp
 COPY ./ /www/my-simple-frontend
 WORKDIR /www/my-simple-frontend
 RUN npm install
+RUN npm test
 RUN npm run build
 
 # cleanup

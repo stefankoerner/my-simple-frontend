@@ -4,8 +4,22 @@ import { TestBed, async } from '@angular/core/testing';
 import { DeleteComponent } from './delete.component';
 
 describe('Component: Delete', () => {
-  it('should create an instance', () => {
-    let component = new DeleteComponent();
-    expect(component).toBeTruthy();
+
+  /*beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        DeleteComponent
+      ],
+      imports: [
+      ],
+      providers: [
+      ]
+    });
   });
+
+  it('should create an instance', () => {
+    let fixture = TestBed.createComponent(DeleteComponent);
+    let app = fixture.debugElement.componentInstance;
+    expect(app).toBeTruthy();
+  });*/
 });
