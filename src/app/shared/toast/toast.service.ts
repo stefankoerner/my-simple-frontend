@@ -14,7 +14,9 @@ export type ToastMessage = {
 export class ToastService {
 
   private timeout = 5000;
-  private _messages:Array<ToastMessage> = [];
+  private _messages:Array<ToastMessage> = [
+    {type: 'info', title: 'test', message: 'message'}
+  ];
 
   public messages: Observable<Array<ToastMessage>>;
   private messagesObserver: Observer<Array<ToastMessage>>;
