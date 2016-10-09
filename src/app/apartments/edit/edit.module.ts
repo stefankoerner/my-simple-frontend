@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Routes, RouterModule} from "@angular/router";
 import {EditComponent} from "./edit.component";
 import {ApartmentFormModule} from "../../shared/apartment-form/apartment-form.module";
+import { DeleteComponent } from './delete/delete.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    EditComponent
+    EditComponent,
+    DeleteComponent
   ],
   imports: [
     RouterModule.forChild(routes),

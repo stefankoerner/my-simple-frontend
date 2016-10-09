@@ -6,6 +6,7 @@ import {FormGroup} from "@angular/forms";
 
 @Injectable()
 export class ApartmentsServiceMock extends ApartmentsServiceBase {
+
   private delay:number = 2000;
   private data:Array<Apartment> = [];
 
@@ -13,7 +14,7 @@ export class ApartmentsServiceMock extends ApartmentsServiceBase {
     super();
   }
 
-  private getData(): Array<Apartment> {
+  getData(): Array<Apartment> {
     if (this.data.length < 10) {
       for (let i=0; i<234; i++) {
         this.data.push(
@@ -34,11 +35,11 @@ export class ApartmentsServiceMock extends ApartmentsServiceBase {
     return this.data;
   }
 
-  public getList(page:number, limit:number, filter:{[key:string]:string}): Observable<Array<Apartment>> {
+  getList(page:number, limit:number, filter:{[key:string]:string}): Observable<Array<Apartment>> {
     return Observable.of(this.getData().slice(page*limit, page*limit + limit)).delay(this.delay);
   }
 
-  public add(form:FormGroup): Promise<{success:boolean, message?:string}> {
+  add(form:FormGroup): Promise<{success:boolean, message?:string}> {
     return new Promise<{success:boolean, message?:string}>(resolve => {
       let data:Apartment = Apartment.of(form.value);
       data.id = this.data.length;
@@ -47,7 +48,7 @@ export class ApartmentsServiceMock extends ApartmentsServiceBase {
     });
   }
 
-  public update(id:number, token:string, form:FormGroup): Promise<{success:boolean, message?:string}> {
+  update(id:number, token:string, form:FormGroup): Promise<{success:boolean, message?:string}> {
     return new Promise<{success:boolean, message?:string}>(resolve => {
 
       let data = this.data.find(apartment => {
@@ -67,8 +68,15 @@ export class ApartmentsServiceMock extends ApartmentsServiceBase {
     });
   }
 
-  public getById(id:number):Observable<Apartment> {
+  getById(id:number):Observable<Apartment> {
     let apartment:Apartment = this.getData().find((item:Apartment) => item.id === +id);
     return Observable.of(apartment).delay(this.delay);
+  }
+
+  delete(id: number, token: string): Promise<{success: boolean; message?: string}> {
+    return new Promise<{success:boolean, message?:string}>(resolve => {
+      this.data = this.data.filter(item => item.id !== id);
+      resolve({success: true});
+    });
   }
 }

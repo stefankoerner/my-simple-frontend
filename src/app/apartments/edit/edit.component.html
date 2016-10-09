@@ -3,4 +3,5 @@
 </div>
 
 <span *ngIf="!form" class="glyphicon glyphicon-hourglass" aria-hidden="true"></span>
-<app-apartment-form *ngIf="form" [form]="form" (onSave)="onSave()" (onCancel)="onCancel()"></app-apartment-form>
+<app-apartment-form *ngIf="form" [form]="form" (onSave)="onSave()" (onCancel)="onCancel()" (onDelete)="showDelete=true"></app-apartment-form>
+<app-delete *ngIf="showDelete" (onClose)="onDelete($event)"></app-delete>

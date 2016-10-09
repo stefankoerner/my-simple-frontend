@@ -46,6 +46,8 @@ export abstract class ApartmentsServiceBase {
   abstract update(id: number, token: string, form: FormGroup): Promise<{success: boolean, message?: string}>;
 
   abstract getById(id: number): Observable<Apartment>;
+
+  abstract delete(id: number, token: string): Promise<{success: boolean; message?: string}>;
 }
 
 @Injectable()
@@ -100,6 +102,16 @@ export class ApartmentsService extends ApartmentsServiceBase {
   getById(id: number, token?:string): Observable<Apartment> {
     return this.http.get(this.host + '/apartments/' + id + (token ? '?token=' + token : ''))
       .map(response => Apartment.of(response.json()['apartment']));
+  }
+
+  delete(id: number, token: string): Promise<{success: boolean; message?: string}> {
+    return new Promise(resolve => {
+      this.http.delete(this.host + '/apartments/' + id + '?token=' + token).subscribe(result => {
+        resolve({success: result.ok});
+      }, error => {
+        resolve({success: false, message: error.text()});
+      });
+    });
   }
 
 }

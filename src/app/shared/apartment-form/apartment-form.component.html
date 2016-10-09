@@ -48,7 +48,9 @@
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <button [disabled]="!form.valid" class="btn btn-primary" (click)="onSave.emit(true)"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save</button>
+      <button *ngIf="canDelete()" class="btn btn-default" (click)="onDelete.emit(true)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button>
       <button class="btn btn-default" (click)="onCancel.emit(true)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
     </div>
   </div>
 </form>
+

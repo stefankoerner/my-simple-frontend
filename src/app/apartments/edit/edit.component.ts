@@ -27,6 +27,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   private id: number;
   private token: string;
+  private showDelete: boolean;
 
   ngOnInit() {
 
@@ -83,6 +84,24 @@ export class EditComponent implements OnInit, OnDestroy {
         this.router.navigate(["apartments"]);
       });
     });
+    return false;
+  }
+
+  private onDelete(confirmed:boolean):boolean {
+    this.showDelete = false;
+    if (confirmed) {
+      this.apartmentsService.delete(this.id, this.token).then(result => {
+        if (result.success) {
+          this.toastService.add('warning', 'Done!', 'The entry has been successfully deleted.')
+        }
+        else {
+          this.toastService.add('danger', 'Error!', result.message);
+        }
+        TimerObservable.create().subscribe(() => {
+          this.router.navigate(["apartments"]);
+        });
+      });
+    }
     return false;
   }
 

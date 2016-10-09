@@ -11,10 +11,15 @@ export class ApartmentFormComponent implements OnInit {
   @Input('form') form: FormGroup;
   @Output() onSave:EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onCancel:EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onDelete:EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  private canDelete():boolean {
+    return this.onDelete.observers.length > 0;
   }
 
 }
