@@ -1,8 +1,10 @@
 #!/bin/sh
 set -e
 
-ROOT="/www/my-simple-frontend"
+#ROOT="/www/my-simple-frontend"
+#cd "$ROOT"
+#npm run server
 
-cd "$ROOT"
+export APACHE_LOG_DIR=/var/log/apache2
 
-npm run server
+exec apache2 -DFOREGROUND
