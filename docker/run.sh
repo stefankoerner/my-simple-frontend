@@ -5,6 +5,5 @@ set -e
 #cd "$ROOT"
 #npm run server
 
-export APACHE_LOG_DIR=/var/log/apache2
-
-exec apache2 -DFOREGROUND
+# start all the services
+exec /usr/bin/supervisord
