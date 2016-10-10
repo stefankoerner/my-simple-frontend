@@ -35,6 +35,7 @@ WORKDIR /www/my-simple-frontend
 RUN npm install
 RUN npm run build
 COPY ./docker/my-simple-frontend.conf /etc/apache2/sites-enabled/000-default.conf
+RUN chown -R www-data:www-data /www/my-simple-frontend
 
 # cleanup
 RUN apt-get autoremove && apt-get autoclean && apt-get clean && npm cache clear

@@ -1,7 +1,6 @@
 <div class="page-header">
   <h4>Edit Apartment</h4>
 </div>
-
-<span *ngIf="!form" class="glyphicon glyphicon-hourglass" aria-hidden="true"></span>
-<app-apartment-form *ngIf="form" [form]="form" (onSave)="onSave()" (onCancel)="onCancel()" (onDelete)="showDelete=true"></app-apartment-form>
+<div class="text-center" *ngIf="loading"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></div>
+<app-apartment-form [hidden]="loading" *ngIf="form" [form]="form" (onSave)="onSave()" (onCancel)="onCancel()" (onDelete)="showDelete=true"></app-apartment-form>
 <app-delete *ngIf="showDelete" (onClose)="onDelete($event)"></app-delete>

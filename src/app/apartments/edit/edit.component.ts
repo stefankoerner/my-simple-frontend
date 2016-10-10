@@ -22,6 +22,7 @@ export class EditComponent implements OnInit, OnDestroy {
   ) {}
 
   private form:FormGroup;
+  private loading:boolean;
   
   private subscriptions:Subscription[] = [];
 
@@ -44,7 +45,9 @@ export class EditComponent implements OnInit, OnDestroy {
         return;
       }
 
+      this.loading = true;
       this.subscriptions.push(this.apartmentsService.getById(this.id, this.token).subscribe((data: Apartment) => {
+        this.loading = false;
         this.form = this.formBuilder.group({
           'line1': [data.line1],
           'line2': [data.line2],
@@ -73,7 +76,9 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   private onSave():boolean {
+    this.loading = true;
     this.apartmentsService.update(this.id, this.token, this.form).then(result => {
+      this.form = null;
       if (result.success) {
         this.toastService.add('success', 'Saved!', 'The entry has been successfully updated.')
       }
@@ -81,6 +86,7 @@ export class EditComponent implements OnInit, OnDestroy {
         this.toastService.add('danger', 'Error!', result.message);
       }
       TimerObservable.create().subscribe(() => {
+        this.loading = false;
         this.router.navigate(["apartments"]);
       });
     });
@@ -89,8 +95,10 @@ export class EditComponent implements OnInit, OnDestroy {
 
   private onDelete(confirmed:boolean):boolean {
     this.showDelete = false;
+    this.loading = true;
     if (confirmed) {
       this.apartmentsService.delete(this.id, this.token).then(result => {
+        this.form = null;
         if (result.success) {
           this.toastService.add('warning', 'Done!', 'The entry has been successfully deleted.')
         }
@@ -98,6 +106,7 @@ export class EditComponent implements OnInit, OnDestroy {
           this.toastService.add('danger', 'Error!', result.message);
         }
         TimerObservable.create().subscribe(() => {
+          this.loading = false;
           this.router.navigate(["apartments"]);
         });
       });

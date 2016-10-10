@@ -2,4 +2,5 @@
   <h4>Add Apartment</h4>
 </div>
 
-<app-apartment-form [form]="form" (onSave)="onSave()" (onCancel)="onCancel()"></app-apartment-form>
+<div class="text-center" *ngIf="loading"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></div>
+<app-apartment-form [hidden]="loading" *ngIf="form" [form]="form" (onSave)="onSave()" (onCancel)="onCancel()"></app-apartment-form>

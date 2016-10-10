@@ -21,6 +21,7 @@ export class AddComponent implements OnInit {
   ) {}
 
   private form:FormGroup;
+  private loading:boolean;
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -35,7 +36,8 @@ export class AddComponent implements OnInit {
         Validators.required,
         this.validateEmail
       ]],
-    })
+    });
+    this.loading = false;
   }
 
   private onCancel():boolean {
@@ -46,6 +48,7 @@ export class AddComponent implements OnInit {
   }
 
   private onSave():boolean {
+    this.loading = true;
     this.apartmentsService.add(this.form).then((result) => {
       if (result.success) {
         this.toastService.add('success', 'Saved!', 'The entry has been created successfully.')
@@ -54,6 +57,7 @@ export class AddComponent implements OnInit {
         this.toastService.add('danger', 'Error!', result.message);
       }
       TimerObservable.create().subscribe(() => {
+        this.loading = false;
         this.router.navigate(["apartments"]);
       });
     });
