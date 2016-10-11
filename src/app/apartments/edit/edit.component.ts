@@ -95,8 +95,8 @@ export class EditComponent implements OnInit, OnDestroy {
 
   private onDelete(confirmed:boolean):boolean {
     this.showDelete = false;
-    this.loading = true;
     if (confirmed) {
+      this.loading = true;
       this.apartmentsService.delete(this.id, this.token).then(result => {
         this.form = null;
         if (result.success) {
