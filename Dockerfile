@@ -30,9 +30,10 @@ COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN a2enmod rewrite
 
 # build project
-COPY ./ /www/my-simple-frontend
+COPY ./package.json /www/my-simple-frontend/package.json
 WORKDIR /www/my-simple-frontend
 RUN npm install
+COPY ./ /www/my-simple-frontend/
 RUN npm run build
 COPY ./docker/my-simple-frontend.conf /etc/apache2/sites-enabled/000-default.conf
 RUN chown -R www-data:www-data /www/my-simple-frontend
