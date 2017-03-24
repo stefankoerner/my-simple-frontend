@@ -18,7 +18,7 @@ export class ApartmentFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  private canDelete():boolean {
+  public canDelete():boolean {
     return this.onDelete.observers.length > 0;
   }
 

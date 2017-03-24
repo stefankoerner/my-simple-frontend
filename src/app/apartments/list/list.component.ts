@@ -14,14 +14,14 @@ declare var jQuery:any;
 })
 export class ListComponent implements OnInit, OnDestroy {
 
-  private page:number;
-  private limit:number;
-  private filter:{[key:string]:string};
-  private list:Array<Apartment>;
-  private loading:boolean;
-  private endReached:boolean;
-  private subscriptions:Array<Subscription> = [];
-  private selectedId:number;
+  public page:number;
+  public limit:number;
+  public filter:{[key:string]:string};
+  public list:Array<Apartment>;
+  public loading:boolean;
+  public endReached:boolean;
+  public subscriptions:Array<Subscription> = [];
+  public selectedId:number;
 
   constructor(private apartmentsService: ApartmentsService, private router:Router, private route: ActivatedRoute) { }
 
@@ -52,7 +52,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private appendList(list:Array<Apartment>) {
+  public appendList(list:Array<Apartment>) {
     this.list.push(...list);
     this.endReached = list.length < this.limit;
     this.loading = false;
@@ -61,8 +61,8 @@ export class ListComponent implements OnInit, OnDestroy {
     });
   }
 
-  private filterChangedTimer:Subscription;
-  private filterChanged():void {
+  public filterChangedTimer:Subscription;
+  public filterChanged():void {
     if (!!this.filterChangedTimer) {
       this.filterChangedTimer.unsubscribe();
     }
@@ -77,18 +77,19 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
 
-  private loadList():Observable<Array<Apartment>> {
+  public loadList():Observable<Array<Apartment>> {
     this.loading = true;
     return this.apartmentsService.getList(this.page, this.limit, this.filter);
   }
 
-  private loadListContinue() {
+  public loadListContinue() {
     if (false === this.loading && false === this.endReached) {
 
-      let table = jQuery("app-apartments-list:first");
+      let table = jQuery("app-apartments-list:first .table-responsive:first");
       let viewport = jQuery( window );
       if (table.length > 0) {
         let scrollBottom =  table.offset().top + table.height() - viewport.scrollTop() - viewport.height();
+
         if (scrollBottom <= 400) {
           this.page++;
           this.loadList().subscribe(list => {
@@ -99,16 +100,16 @@ export class ListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private onClickAdd():boolean {
+  public onClickAdd():boolean {
     this.router.navigate(['apartments', 'add']);
     return false;
   }
 
-  private onClickItem(id:number) {
+  public onClickItem(id:number) {
     this.router.navigate(['apartments'], {fragment: id + ''});
   }
 
-  private onClickClose() {
+  public onClickClose() {
     this.router.navigate(['apartments']);
   }
 }

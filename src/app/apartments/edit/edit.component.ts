@@ -21,14 +21,14 @@ export class EditComponent implements OnInit, OnDestroy {
     private toastService: ToastService
   ) {}
 
-  private form:FormGroup;
-  private loading:boolean;
+  public form:FormGroup;
+  public loading:boolean;
   
   private subscriptions:Subscription[] = [];
 
   private id: number;
   private token: string;
-  private showDelete: boolean;
+  public showDelete: boolean;
 
   ngOnInit() {
 

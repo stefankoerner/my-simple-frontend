@@ -8,7 +8,7 @@ import {ToastService, ToastMessage} from "./toast.service";
 })
 export class ToastComponent implements OnInit {
 
-  private messages:Array<ToastMessage> = [];
+  public messages:Array<ToastMessage> = [];
 
   private capitalizeFirstLetter(text:string) {
     return text.charAt(0).toUpperCase() + text.slice(1);

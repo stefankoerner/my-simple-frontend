@@ -14,7 +14,7 @@ export class DetailsComponent implements OnInit {
   @Input() selectedId: number;
   @Output() onClose:EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  private data:Apartment;
+  public data:Apartment;
   private sub:Subscription;
 
   constructor(private apartmentsService: ApartmentsService, private router:Router, private route: ActivatedRoute) {

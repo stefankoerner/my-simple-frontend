@@ -20,8 +20,8 @@ export class AddComponent implements OnInit {
     private toastService: ToastService
   ) {}
 
-  private form:FormGroup;
-  private loading:boolean;
+  public form:FormGroup;
+  public loading:boolean;
 
   ngOnInit() {
     this.form = this.formBuilder.group({
