@@ -31,7 +31,6 @@ RUN a2enmod rewrite
 
 # build project
 COPY ./package.json /www/my-simple-frontend/package.json
-COPY ./npm-shrinkwrap.json /www/my-simple-frontend/npm-shrinkwrap.json
 WORKDIR /www/my-simple-frontend
 RUN npm install
 COPY ./ /www/my-simple-frontend/
